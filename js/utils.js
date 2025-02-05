@@ -32,6 +32,26 @@ export function getTypeIcon(type) {
     'Content': `<svg viewBox="0 0 512 512">
       <path fill="currentColor" d="M256 32c-123.7 0-224 100.3-224 224s100.3 224 224 224 224-100.3 224-224S379.7 32 256 32zm-32 352V128l160 128-160 128z"/>
     </svg>`,
+    
+    'Sky': `<svg viewBox="0 0 512 512">
+      <path fill="currentColor" d="M256 32C132.3 32 32 132.3 32 256s100.3 224 224 224 224-100.3 224-224S379.7 32 256 32zm0 64c88.2 0 160 71.8 160 160 0 8.8-.7 17.5-2.1 25.9-28.5-36.9-73.3-60.9-123.9-60.9-86.2 0-156 69.8-156 156 0 27.4 7 53.1 19.3 75.5-89.3-23.5-155.3-104.6-155.3-200.5 0-114.9 93.1-208 208-208z"/>
+    </svg>`,
+    
+    'Flora': `<svg viewBox="0 0 512 512">
+      <path fill="currentColor" d="M64 96c0-35.3 28.7-64 64-64h256c35.3 0 64 28.7 64 64v320c0 35.3-28.7 64-64 64H128c-35.3 0-64-28.7-64-64V96zm128 64c0 17.7 14.3 32 32 32h64c17.7 0 32-14.3 32-32s-14.3-32-32-32h-64c-17.7 0-32 14.3-32 32zm128 160c0-17.7-14.3-32-32-32h-64c-17.7 0-32 14.3-32 32s14.3 32 32 32h64c17.7 0 32-14.3 32-32z"/>
+    </svg>`,
+    
+    'Elemental': `<svg viewBox="0 0 512 512">
+      <path fill="currentColor" d="M256 32c-123.7 0-224 100.3-224 224s100.3 224 224 224 224-100.3 224-224S379.7 32 256 32zm0 384c-88.2 0-160-71.8-160-160S167.8 96 256 96s160 71.8 160 160-71.8 160-160 160zm0-272c-61.9 0-112 50.1-112 112s50.1 112 112 112 112-50.1 112-112-50.1-112-112-112z"/>
+    </svg>`,
+    
+    'Celestial': `<svg viewBox="0 0 512 512">
+      <path fill="currentColor" d="M256 32C132.3 32 32 132.3 32 256s100.3 224 224 224 224-100.3 224-224S379.7 32 256 32zm0 64c88.2 0 160 71.8 160 160s-71.8 160-160 160S96 344.2 96 256 167.8 96 256 96zm0 32c-70.7 0-128 57.3-128 128s57.3 128 128 128 128-57.3 128-128-57.3-128-128-128zm0 32c53 0 96 43 96 96s-43 96-96 96-96-43-96-96 43-96 96-96z"/>
+    </svg>`,
+    
+    'Light': `<svg viewBox="0 0 512 512">
+      <path fill="currentColor" d="M256 32C132.3 32 32 132.3 32 256s100.3 224 224 224 224-100.3 224-224S379.7 32 256 32zm0 64c88.2 0 160 71.8 160 160s-71.8 160-160 160S96 344.2 96 256 167.8 96 256 96zm0 32v256c70.7 0 128-57.3 128-128S326.7 128 256 128z"/>
+    </svg>`
   };
   
   return icons[type] || `<svg viewBox="0 0 512 512"><path fill="currentColor" d="M256 96c-88.4 0-160 71.6-160 160s71.6 160 160 160 160-71.6 160-160S344.4 96 256 96z"/></svg>`;
@@ -47,7 +67,36 @@ export function getTypeColor(type) {
     'osrs': '#F9A825',     // Gold for Old School RuneScape
     'rs3': '#FB8C00',      // Orange for RS3
     'content': '#E91E63',   // Pink for content creation
+    'sky': '#87CEEB',      // Sky blue
+    'flora': '#98FB98',    // Pale green
+    'elemental': '#DDA0DD', // Plum
+    'celestial': '#B39DDB', // Light purple
+    'light': '#FFD700',    // Gold
   };
   
   return colors[type.toLowerCase()] || '#999999';
+}
+
+export function showToast(message, isError = false) {
+  const existingToast = document.querySelector('.toast');
+  if (existingToast) {
+    existingToast.remove();
+  }
+
+  const toast = document.createElement('div');
+  toast.className = `toast${isError ? ' error' : ' success'}`;
+  toast.textContent = message;
+
+  document.body.appendChild(toast);
+
+  requestAnimationFrame(() => {
+    toast.classList.add('show');
+  });
+
+  setTimeout(() => {
+    toast.classList.remove('show');
+    setTimeout(() => {
+      toast.remove();
+    }, 300);
+  }, 3000);
 }
