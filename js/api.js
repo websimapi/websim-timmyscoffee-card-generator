@@ -9,7 +9,7 @@ export async function getPokemonDescription() {
       body: JSON.stringify({
         prompt: `Generate a creative description for a completely unique TimmysCoffee card. The name should be a creative blend of Timmy's interests like coffee, gaming (especially RuneScape), football (particularly Chelsea), or his Canadian identity.
 
-        Include 1-2 types from: Gaming, Coffee, Football, Chelsea, Canadian, OSRS, RS3, Content
+        Include 1-2 types from: Gaming, Coffee, Football, Chelsea, Canadian, OSRS, RS3, Content, Sky, Flora, Elemental, Celestial, Light
 
         The description should capture Timmy's personality as a 32-year-old Canadian RuneScape veteran, Chelsea fan, and content creator.
 
@@ -17,8 +17,8 @@ export async function getPokemonDescription() {
           name: string;
           description: string;
           type: string;  // Single type or two types separated by /
-          level: string; // Instead of height
-          xp: string;    // Instead of weight
+          level: string; // For level metric
+          xp: string;    // For XP metric
         }
 
         Example response (generate something different):
@@ -40,8 +40,8 @@ export async function getPokemonDescription() {
       name: 'Error',
       description: 'Failed to generate card description',
       type: 'Unknown',
-      level: 'Unknown',
-      xp: 'Unknown'
+      level: '1', 
+      xp: '0'
     };
   }
 }

@@ -65,86 +65,86 @@ export async function generateCard() {
         <div class="stat-value">???</div>
       </div>
       <div class="stat-box">
-        <div class="stat-label">Height</div>
+        <div class="stat-label">Level</div>
         <div class="stat-value">???</div>
       </div>
       <div class="stat-box">
-        <div class="stat-label">Weight</div>
+        <div class="stat-label">XP</div>
         <div class="stat-value">???</div>
       </div>
     </div>
     <div class="description-box">
       <div class="description-title">Description</div>
-      <div class="full-description">Generate a Pogemon to see its description!</div>
+      <div class="full-description">Generate a TimmysCoffee card to see its description!</div>
     </div>
   `;
   
   cardContainer.appendChild(submenu);
 
   // Get Pokemon description from LLM
-  const pokemonData = await getPokemonDescription();
+  const cardData = await getPokemonDescription();
 
   // Update submenu content but keep it hidden
   const statValues = submenu.querySelectorAll('.stat-value');
-  statValues[0].textContent = pokemonData.name;
-  statValues[1].textContent = pokemonData.type;
-  statValues[2].textContent = pokemonData.height;
-  statValues[3].textContent = pokemonData.weight;
+  statValues[0].textContent = cardData.name;
+  statValues[1].textContent = cardData.type;
+  statValues[2].textContent = cardData.level || 'Unknown';
+  statValues[3].textContent = cardData.xp || 'Unknown';
   
-  submenu.querySelector('.full-description').textContent = pokemonData.description;
+  submenu.querySelector('.full-description').textContent = cardData.description;
 
   // Generate image based on description
-  const imageUrl = await generatePokemonImage(`cartoon Pogemon ${pokemonData.description}`);
+  const imageUrl = await generatePokemonImage(`unique TimmysCoffee card ${cardData.description}`);
   
-  // Move cardData declaration earlier
-  const cardData = {
-    name: pokemonData.name,
-    description: pokemonData.description,
-    type: pokemonData.type,
-    height: pokemonData.height,
-    weight: pokemonData.weight,
+  // Move cardData declaration earlier and ensure height/weight values
+  const fullCardData = {
+    name: cardData.name,
+    description: cardData.description,
+    type: cardData.type,
+    height: cardData.level || 'lvl 1',
+    weight: cardData.xp || '0 xp',
     imageUrl: imageUrl
   };
 
   // Modify the image creation and load handler
   if (imageUrl) {
     const pokemonImage = document.createElement('img');
-    pokemonImage.id = `pokemon-${Date.now()}`; // Unique ID
+    pokemonImage.id = `timmyscoffee-${Date.now()}`; // Unique ID
     pokemonImage.className = 'pokemon-image hidden'; // Add hidden class initially
     pokemonImage.src = imageUrl;
-    pokemonImage.alt = `cartoon Pogemon ${pokemonData.description} - ${pokemonData.name} cartoon Pogemon`;
+    pokemonImage.alt = `TimmysCoffee card ${cardData.description} - ${cardData.name}`;
     
     // Add load and error event listeners
     pokemonImage.addEventListener('load', async function() {
       const actualSrc = this.currentSrc || this.src;
       // Only show and save if the source isn't our text string
-      if (!actualSrc.includes('cartoon Pogemon')) {
+      if (!actualSrc.includes('TimmysCoffee card')) {
         this.classList.remove('hidden');
         
         try {
           // First fetch the image and convert it to a File object
           const response = await fetch(actualSrc);
           const blob = await response.blob();
-          const file = new File([blob], `${cardData.name}.png`, { type: 'image/png' });
+          const file = new File([blob], `${fullCardData.name}.png`, { type: 'image/png' });
           
           // Upload image to websim storage
           const backupImageUrl = await websim.upload(file);
           
           // Update the cardData with both the actual resolved URL and backup URL
-          cardData.imageUrl = actualSrc;
-          cardData.backupImageUrl = backupImageUrl;
+          fullCardData.imageUrl = actualSrc;
+          fullCardData.backupImageUrl = backupImageUrl;
           
           // Save the card with both URLs
-          await saveCard(cardData);
+          await saveCard(fullCardData);
         } catch (error) {
           console.error('Error creating backup image:', error);
           // Still save the card even if backup fails, just without backup URL
-          cardData.imageUrl = actualSrc;
-          await saveCard(cardData);
+          fullCardData.imageUrl = actualSrc;
+          await saveCard(fullCardData);
         }
       }
     });
-    
+
     pokemonImage.addEventListener('error', function() {
       this.classList.add('hidden');
     });
@@ -155,12 +155,12 @@ export async function generateCard() {
   
   // Create and append Pokemon info elements
   const nameElement = card.querySelector('.pokemon-name');
-  nameElement.textContent = pokemonData.name;
+  nameElement.textContent = cardData.name;
   
   // Create stats container with new compact layout
   const statsContainer = card.querySelector('.stats-container');
   
-  const types = pokemonData.type.split('/');
+  const types = cardData.type.split('/');
   const typeIcons = types.map(type => {
     const typeDiv = document.createElement('div');
     typeDiv.className = `type-icon ${type.toLowerCase().trim()}`;
@@ -186,10 +186,10 @@ export async function generateCard() {
   cardFront.style.background = `linear-gradient(135deg, ${primaryColor}26, ${secondaryColor}26 70%)`;
 
   const statsElement = statsContainer.querySelector('.pokemon-stats');
-  statsElement.textContent = `${pokemonData.height} | ${pokemonData.weight}`;
+  statsElement.textContent = `${fullCardData.height} | ${fullCardData.weight}`;
   
   const descElement = card.querySelector('.pokemon-description');
-  descElement.textContent = pokemonData.description;
+  descElement.textContent = cardData.description;
   
   cardContainer.appendChild(card);
 
