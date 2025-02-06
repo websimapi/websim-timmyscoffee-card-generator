@@ -381,7 +381,7 @@ body {
   position: absolute;
   top: 6px;
   left: 15px;
-  font-size: 0.95em;
+  font-size: 0.75em;
   font-weight: bold;
   color: #333;
   z-index: 2;
@@ -434,7 +434,7 @@ body {
 }
 
 .pokemon-stats {
-  font-size: 0.44em;
+  font-size: 1em;
   color: #666;
 }
 
@@ -1697,7 +1697,7 @@ body {
 }
 
 .pokemon-stats {
-  font-size: 0.44em;
+  font-size: 1em;
   color: #666;
 }
 
