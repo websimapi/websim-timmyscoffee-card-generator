@@ -7,11 +7,35 @@ export async function getPokemonDescription() {
         'Accept': 'application/json',
       },
       body: JSON.stringify({
-        prompt: `Generate a creative description for a completely unique TimmysCoffee card. The name should be a creative blend of Timmy's interests like coffee, gaming (especially RuneScape), football (particularly Chelsea), or his Canadian identity.
+        prompt: `Generate a creative description for a unique TimmysCoffee card. The name should be a creative blend of Timmy's interests like coffee, gaming (especially RuneScape), football (particularly Chelsea), content creation, or his Canadian identity.
 
         Include 1-2 types from: Gaming, Coffee, Football, Chelsea, Canadian, OSRS, RS3, Content, Sky, Flora, Elemental, Celestial, Light
 
-        The description should capture Timmy's personality as a 32-year-old Canadian RuneScape veteran, Chelsea fan, and content creator.
+        The description should capture the essence of TimmysCoffee (Ryan) - a 32-year-old Canadian RuneScape veteran of 20+ years, Chelsea fan, Twitch streamer, and content creator known for epic gaming moments and engaging streams.
+
+        Level Context:
+        - Lower levels (1-50) should be more common
+        - Mid levels (51-80) should be less common
+        - High levels (81-99) should be rare
+        - Max level (99) should be very rare
+        
+        XP Context:
+        - 0-100k XP (common)
+        - 100k-1M XP (uncommon)
+        - 1M-10M XP (rare)
+        - 10M+ XP (very rare)
+        - 13M XP (extremely rare, only for level 99 cards)
+
+        Do NOT generate holographic cards (these are extremely rare special events only)
+
+        Incorporate real TimmysCoffee stream moments when possible:
+        - Beaver pet drops
+        - Kraken battles
+        - Late night skill grinds
+        - RuneScape beer chugging moments
+        - Chelsea FC reactions
+        - Canadian hometown pride
+        - Coffee brewing sessions
 
         interface Response {
           name: string;
@@ -23,11 +47,11 @@ export async function getPokemonDescription() {
 
         Example response (generate something different):
         {
-          "name": "Maple Grind",
-          "description": "A legendary Canadian coffee blend that grants double XP while playing RuneScape. Its aroma carries whispers of level-up sounds and the spirit of efficient skilling.",
-          "type": "Coffee/Canadian",
-          "level": "99",
-          "xp": "13M"
+          "name": "Late Night Grinder",
+          "description": "A legendary coffee-fueled skilling session where TimmysCoffee achieved 99 Woodcutting at 3 AM while sharing stories of Canadian winters. The stream peaked when the coveted beaver pet dropped, causing an eruption of celebration.",
+          "type": "Coffee/OSRS",
+          "level": "lvl 99",
+          "xp": "13M xp"
         }`,
         data: ""
       }),
@@ -40,8 +64,8 @@ export async function getPokemonDescription() {
       name: 'Error',
       description: 'Failed to generate card description',
       type: 'Unknown',
-      level: '1', 
-      xp: '0'
+      level: 'lvl 1', 
+      xp: '0 xp'
     };
   }
 }
@@ -55,8 +79,18 @@ export async function generatePokemonImage(description) {
         'Accept': 'application/json',
       },
       body: JSON.stringify({
-        prompt: `Generate a unique image URL for a TimmysCoffee card based on this description: "${description}". The image style should blend gaming elements with coffee themes, incorporating RuneScape, Chelsea FC, and Canadian imagery where appropriate. Return a URL to an image that matches the description.
+        prompt: `Generate a unique image URL for a TimmysCoffee card based on this description: "${description}". 
 
+        The image should blend elements of:
+        - RuneScape gameplay (OSRS and RS3)
+        - Coffee culture
+        - Chelsea FC
+        - Canadian imagery
+        - Twitch streaming/content creation
+        - Epic gaming moments
+        
+        Style: Clean, vibrant, slightly stylized but not cartoonish
+        
         interface Response {
           imageUrl: string;
         }
