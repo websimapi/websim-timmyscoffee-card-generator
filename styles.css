@@ -1017,7 +1017,7 @@ body {
   }
 
   .pokemon-stats {
-    font-size: 0.7em;
+    font-size: 0.35em;
   }
 
   .card-image-container {
@@ -1248,7 +1248,7 @@ body {
   }
 
   .pokemon-stats {
-    font-size: 0.105in !important;
+    font-size: 0.0525in !important;
   }
 
   .pokemon-image {
@@ -1785,4 +1785,24 @@ body {
 
 .generate-btn.locating {
   animation: locateGlow 1.5s ease-in-out infinite;
+}
+
+.pokemon-stats {
+  font-size: 0.35em;
+  color: #666;
+  padding-left: 2px;
+  border-left: 1px solid rgba(0, 0, 0, 0.1);
+  white-space: nowrap;
+}
+
+@media (max-width: 480px) {
+  .pokemon-stats {
+    font-size: 0.35em;
+  }
+}
+
+@media print {
+  .pokemon-stats {
+    font-size: 0.0525in !important;
+  }
 }
